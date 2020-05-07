@@ -29,7 +29,7 @@ var server = http.createServer (app);
 /* Synchronize all models first and, once the database updates are complete, 
 start listening with the web serve */
 
-sequelize.sync (). then ( () => {
+sequelize.sync ().then (() => {
     server.listen (port);
 }); 
 server.on ('error', onError);
