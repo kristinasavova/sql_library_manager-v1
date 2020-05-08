@@ -1,5 +1,8 @@
 const express = require ('express'); 
+const cookieParser = require ('cookie-parser'); // parse cookie header  
+const logger = require ('morgan'); // easily log requests, errors, and more to the console 
 const path = require ('path'); // provides a way of working with directories and file paths 
+const sequelize = require ('./models').sequelize; // import Sequelize
 
 const routes = require ('./routes/index'); 
 const books = require ('./routes/books');  
@@ -10,6 +13,10 @@ const app = express ();
 app.set ('views', path.join (__dirname, 'views')); // join the specified path segments into one path 
 app.set ('view engine', 'pug'); 
 
+app.use (logger ('dev')); 
+app.use (express.json ()); 
+app.use (express.urlencoded ({ extended: false })); 
+app.use (cookieParser ()); 
 app.use (express.static (path.join (__dirname, 'public')));
 
 app.use ('/', routes);
@@ -24,13 +31,19 @@ app.use ((req, res, next) => {
 
 // Error handler that sets the error message and status code
 app.use ((err, req, res, next) => {
-    // Set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get ('env') === 'development' ? err : {};
-
-    // Render the error page
-    res.status (err.status || 500);
-    res.render ('error');  
+    res.status (err.status || 500); 
+    res.render ('error', { error: err });  
 });
 
-module.exports = app; 
+sequelize.sync ()
+    .then ( async () => {
+        // Returns a promise that resolves to a successful, authenticated connection to the database
+        await sequelize.authenticate ();
+        console.log ('Connection to the database is successful!');
+    })
+    .then (() => {
+        // Start a server 
+        app.listen (3000, () => {
+            console.log ('The application is running on localhost:3000'); 
+        });
+});

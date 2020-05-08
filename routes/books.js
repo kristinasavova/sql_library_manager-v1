@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require ('express'); 
 const router = express.Router ();
 const { Book } = require ('../models'); // require book model from models  
@@ -16,18 +18,18 @@ function asyncHandler (cb) {
 }; 
 
 // GET the list of the books
-router.get ('/books', asyncHandler (async (req, res) => {
+router.get ('/', asyncHandler (async (req, res) => {
     const books = await Book.findAll ();
     res.render ('books/index', { books, title: 'Books' }); 
 })); 
 
 // GET create new book form 
-router.get ('/books/new', (req, res) => {
+router.get ('/new', (req, res) => {
     res.render ('books/new', { book: {}, title: 'New Book' });
 }); 
 
 // POST create new book form
-router.post ('/books/new', asyncHandler ( async (req, res) => {
+router.post ('/new', asyncHandler ( async (req, res) => {
     let book; 
     try {
         // Req.body is an object with the same properties as Book { title: '', ... }
@@ -40,13 +42,13 @@ router.post ('/books/new', asyncHandler ( async (req, res) => {
             book = await Book.build (req.body);  
             res.render ('/books/new', { book, errors: error.errors, title: 'New Book' }); 
         } else {
-            throw error; // // error caught in the asyncHandler's catch block 
+            throw error; // error caught in the asyncHandler's catch block 
         }
     }
 })); 
 
 // GET individual book detail form
-router.get ('/books/:id', asyncHandler (async (req, res) => {
+router.get ('/:id', asyncHandler (async (req, res) => {
     // Req.params returns parameters in the matched route
     const book = await Book.findByPk (req.params.id);
     if (book) { // if the book exists 
@@ -57,7 +59,7 @@ router.get ('/books/:id', asyncHandler (async (req, res) => {
 }));
 
 // GET update book form
-router.get ('/books/:id/edit', asyncHandler (async (req, res) => {
+router.get ('/:id/edit', asyncHandler (async (req, res) => {
     const book = await Book.findByPk (req.params.id); 
     if (book) {
         res.render ('books/edit', { book, title: 'Edit Book' }); 
@@ -67,13 +69,13 @@ router.get ('/books/:id/edit', asyncHandler (async (req, res) => {
 }));
 
 // POST update book form 
-router.post ('books/:id/edit', asyncHandler (async (req, res) => {
+router.post ('/:id/edit', asyncHandler (async (req, res) => {
     let book;
     try {
         book = await Book.findByPk (req.params.id); 
         if (book) {
             await book.update (req.body); 
-            res.redirect ('/books'); 
+            res.redirect ('/books/'); 
         } else {
             res.sendStatus (404); 
         }
@@ -90,7 +92,7 @@ router.post ('books/:id/edit', asyncHandler (async (req, res) => {
 }));
 
 // GET delete book form
-router.get ('/books/:id/delete', asyncHandler (async (req, res) => {
+router.get ('/:id/delete', asyncHandler (async (req, res) => {
     const book = await Book.findByPk (req.params.id); 
     if (book) {
         res.render ('books/delete', { book, title: 'Delete Book '});
@@ -100,11 +102,11 @@ router.get ('/books/:id/delete', asyncHandler (async (req, res) => {
 }));
 
 // POST delete book form
-router.post ('/books/:id/delete', asyncHandler (async (req, res) => {
+router.post ('/:id/delete', asyncHandler (async (req, res) => {
     const book = await Book.findByPk (req.params.id); 
     if (book) {
         await book.destroy (); 
-        res.redirect ('/books'); 
+        res.redirect ('/'); 
     } else {
         res.sendStatus (404); 
     }
