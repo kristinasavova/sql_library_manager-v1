@@ -1,0 +1,24 @@
+extends ../layout 
+
+block content 
+  p
+    a(href="../") Back
+  table 
+    thead 
+      tr  
+        th Title 
+        th Author 
+        th Genre 
+        th Year 
+    tbody 
+      tr
+        td
+          a(href="/books/" + book.id)= book.title 
+        td= book.author 
+        td= book.genre 
+        td= book.year
+  p
+    a(href="/books/" + book.id + "/edit" value="Edit Book") Edit Book
+  p
+    a(href="/books/" + book.id + "/delete" value="Delete Book") Delete Book
+  

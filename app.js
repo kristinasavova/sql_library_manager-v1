@@ -14,6 +14,7 @@ app.set ('views', path.join (__dirname, 'views')); // join the specified path se
 app.set ('view engine', 'pug'); 
 
 app.use (logger ('dev')); 
+// Returns middleware that only parses JSON and only looks at requests where the Content-Type header matches the type option
 app.use (express.json ()); 
 app.use (express.urlencoded ({ extended: false })); 
 app.use (cookieParser ()); 
@@ -22,17 +23,19 @@ app.use (express.static (path.join (__dirname, 'public')));
 app.use ('/', routes);
 app.use ('/books', books);
 
-// If a user navigates to a non-existent route, or if a request fails for whatever reason
-app.use ((req, res, next) => {
-    const err = new Error ('Not Found'); 
+// If a user navigates to a non-existent route
+app.use ((req, res, next) => { 
+    const err = new Error ();
     err.status = 404;
-    next (err); 
+    console.log ('Page not found!', err);
+    next (err);
 }); 
 
 // Error handler that sets the error message and status code
 app.use ((err, req, res, next) => {
     res.status (err.status || 500); 
-    res.render ('error', { error: err });  
+    console.log ('Global error handler has been called!', err);
+    res.render ('error', { error: err, title: 'Not Found' });  
 });
 
 sequelize.sync ()

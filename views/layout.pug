@@ -2,8 +2,10 @@ doctype html
 html 
   head 
     title= title  
-    link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet" href="/stylesheets/style.css" type="text/css")
   body 
     h1= title 
+      include search 
+      
       block content 
         
