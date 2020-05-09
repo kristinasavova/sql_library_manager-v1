@@ -2,6 +2,7 @@
 
 const express = require ('express'); 
 const router = express.Router ();
+const sequelize = require ('../models').sequelize; 
 const { Book } = require ('../models'); // require book model from models 
 const { Op } = require ('sequelize'); // extract the property Op (Operators)   
 
@@ -46,6 +47,33 @@ router.post ('/', asyncHandler ( async (req, res) => {
         } else {
             throw error; // error caught in the asyncHandler's catch block 
         }
+    }
+})); 
+
+// GET search for a book
+router.get ('/search/', asyncHandler (async (req, res, next) => {
+    const value = req.query.query; // the name of the search input is query  
+    const books = await Book.findAll ({ 
+        // SELECT * FROM books WHERE title LIKE "%value%" OR author LIKE "%value%" OR genre LIKE "%value%" OR year LIKE "%value%" 
+        where: { 
+            [Op.or]: [ 
+                sequelize.where (sequelize.fn ('LOWER', sequelize.col ('title')), 'LIKE', '%' + value + '%'), // case insensitive
+                sequelize.where (sequelize.fn ('LOWER', sequelize.col ('author')), 'LIKE', '%' + value + '%'), // case insensitive
+                sequelize.where (sequelize.fn ('LOWER', sequelize.col ('genre')), 'LIKE', '%' + value + '%'), // case insensitive
+                {
+                    year: { [Op.like]: '%' + value + '%' }
+                }
+            ]
+        },
+        // order books in the array
+        order: [['year', 'ASC']] // titles in descending order 
+    });
+    if (books.length > 0) { 
+        res.render ('books/index', { books, title: 'Results' });
+    } else {
+        const err = new Error ();
+        err.status = 400;
+        next (err); 
     }
 })); 
 
@@ -123,30 +151,5 @@ router.post ('/:id/delete', asyncHandler (async (req, res) => {
         next (err);  
     }
 }));
-
-// GET search for a book
-router.get ('/search/', asyncHandler (async (req, res, next) => {
-    const value = req.query.query; // the name of the search input is query 
-    console.log (value); 
-    const books = await Book.findAll ({ 
-        where: { 
-            title: { 
-                [Op.like]: '%' + value + '%' 
-            },
-        //     author: {
-        //         [Op.like]: '%' + value + '%' 
-        //     },
-        //     genre: {
-        //         [Op.like]: '%' + value + '%'
-        //     },
-        //     year: {
-        //         [Op.like]: '%' + value + '%'
-        //     }
-        // },
-        // // order books in the array
-        // order: [['title', 'DESC']] // titles in descending order 
-    }});
-    res.render ('books/index', { books, title: 'Results' });
-})); 
 
 module.exports = router; 
