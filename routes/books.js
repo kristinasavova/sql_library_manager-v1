@@ -4,7 +4,7 @@ const express = require ('express');
 const router = express.Router ();
 const sequelize = require ('../models').sequelize; 
 const { Book } = require ('../models'); // require book model from models 
-const { Op } = require ('sequelize'); // extract the property Op (Operators)   
+const { Op } = require ('sequelize'); // extract the property Op (Operators) 
 
 // A middleware to wrap each of the route in a try-catch block, so we don't have to explicitly write it over and over again 
 function asyncHandler (cb) {
@@ -22,9 +22,15 @@ function asyncHandler (cb) {
 
 // GET the list of the books
 router.get ('/', asyncHandler (async (req, res) => {
-    const books = await Book.findAll ();
-    res.render ('books/index', { books, title: 'Books' }); 
-})); 
+    const page = req.query.page || 1; // page number 
+    const limit = 10; // number of records per page 
+    const offset = (page - 1) * limit; // number of skipped records 
+    const { count, rows } = await Book.findAndCountAll ({ offset, limit });
+    // count - an integer - the total number of records matching the query
+    // rows - an array of objects - the obtained records
+    const pages = Math.ceil (count / limit);  
+    res.render ('books/index', { books: rows, title: 'Books', pages }); 
+}));
 
 // GET create new book form 
 router.get ('/new', (req, res) => {

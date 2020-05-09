@@ -1,7 +1,7 @@
 extends ../layout 
 
 block content 
-  p
+  div
     a(href="/books/new" class="button") Create New Book
   table 
     thead 
@@ -10,7 +10,7 @@ block content
         th Author 
         th Genre 
         th Year 
-    tbody 
+    tbody  
       each book in books 
         tr
           td
@@ -18,3 +18,4 @@ block content
           td= book.author 
           td= book.genre 
           td= book.year 
+  include pagination 
