@@ -25,9 +25,11 @@ router.get ('/', asyncHandler (async (req, res) => {
     const page = req.query.page || 1; // page number 
     const limit = 10; // number of records per page 
     const offset = (page - 1) * limit; // number of skipped records 
-    const { count, rows } = await Book.findAndCountAll ({ offset, limit });
+    const books = await Book.findAndCountAll ({ offset, limit });
     // count - an integer - the total number of records matching the query
     // rows - an array of objects - the obtained records
+    const { count } = books;
+    const { rows } = books;
     const pages = Math.ceil (count / limit);  
     res.render ('books/index', { books: rows, title: 'Books', pages }); 
 }));
