@@ -3,12 +3,35 @@ body {
   font: 18px "Garamond", serif;
 }
 
+h1 {
+  text-align: center;
+  margin-top: 1em;
+  text-transform: uppercase;
+}
+
+h2 {
+  border-top: 2px solid #e7e7e7;
+  padding-top: 20px;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+  .dialog {
+    margin: 3em auto;
+  }
+
 a {
   color: #000033;
   text-decoration: none;
   font-weight: bold;
   transition: 0.4s;
 }
+
+  .button {
+    margin-right: 1.5em;
+  }
 
   a:hover {
     color: #0000b3;
@@ -18,28 +41,43 @@ a.button, input[type=submit] {
   color: white;
   background: #000033;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-  padding: 10px 14px 12px;
+  padding: 10px 14px 12px; 
   font-size: 14px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-form a.button, input[type=submit] {
   transition: 0.4s;
-  margin-left: .5em; 
-  font-weight: bold;
-}
-
-input[type=submit] {
-  border: 0;
 }
 
   a.button:hover, input[type=submit]:hover {
     background-color: #0000b3;
   }
 
-p {
-  margin: 2.2em auto;
+input[type=submit] {
+  font-weight: bold;
+  margin-left: .5em;
+  border: 0;
+}
+
+input[type=search] {
+  padding: 10px 14px 12px; 
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.pagination {
+  display: inline-block;
+  padding: .5em auto;
+  margin: 1em auto;
+}
+
+  .pagination a {
+    float: left; 
+    padding: .5em;
+    margin-right: .5em;
+  }
+
+.search-form {
+  text-align: center;
 }
 
 ul {
@@ -53,16 +91,9 @@ li {
   padding: .5em;
 }
 
-h1 {
-  display: block;
-  text-align: center;
-  margin-top: .8em;
-  text-transform: uppercase;
-}
-
-h2 {
-  border-top: 2px solid #e7e7e7;
-  padding-top: 20px;
+.table {
+  margin-top: 1.2em; 
+  padding-top: 1em;
 }
 
 th {
@@ -94,14 +125,14 @@ label {
   transition: 0.4s;
 }
 
-input {
+/* input {
   padding: 10px;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   font-size: 14px;
   border-radius: 5px;
   border-color: #E7E7E7;
   transition: 0.4s;
-}
+} */
 
 input[type=text] {
   width: 320px;
@@ -119,13 +150,14 @@ input[type=text] {
     display: inline; 
   }
 
-.search-form {
-  text-align: center;
-  margin-top: .3em; 
-}
-
 .error {
   color: rgb(236, 15, 15);
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 @media (min-width: 769px) {

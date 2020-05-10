@@ -1,11 +1,11 @@
 extends ../layout 
 
 block content
-  p
+  p.dialog
     | Are you sure you want to delete 
     em= book.title  
     | ?
   form(action="/books/" + book.id + "/delete" method="post")
-    a(href="/books/" + book.id) No! Take me back! 
+    a(href="/books/" + book.id class="button") Back 
     |
-    input(type="submit" value="Yes, I'm sure!")
+    input(type="submit" value="Yes, I'm sure!" class="danger")

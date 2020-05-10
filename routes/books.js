@@ -25,11 +25,9 @@ router.get ('/', asyncHandler (async (req, res) => {
     const page = req.query.page || 1; // page number 
     const limit = 10; // number of records per page 
     const offset = (page - 1) * limit; // number of skipped records 
-    const books = await Book.findAndCountAll ({ offset, limit });
+    const { count, rows } = await Book.findAndCountAll ({ offset, limit });
     // count - an integer - the total number of records matching the query
     // rows - an array of objects - the obtained records
-    const { count } = books;
-    const { rows } = books;
     const pages = Math.ceil (count / limit);  
     res.render ('books/index', { books: rows, title: 'Books', pages }); 
 }));
@@ -73,10 +71,9 @@ router.get ('/search/', asyncHandler (async (req, res, next) => {
                 }
             ]
         },
-        // order books in the array
-        order: [['year', 'ASC']] // titles in descending order 
+        order: [['year', 'ASC']], // titles in descending order 
     });
-    if (books.length > 0) { 
+    if (books.length > 0) {  
         res.render ('books/index', { books, title: 'Results' });
     } else {
         const err = new Error ();
