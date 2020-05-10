@@ -1,9 +1,9 @@
 extends ../layout 
 
 block content 
-
-  include errors
-
-  form(action="/books" method="post") 
-    include form
-    a(href="/books" class="button") Cancel 
+  div.main-content
+    include errors
+    form(action="/books" method="post") 
+      include form
+      input(type="submit" value="Save")
+      a(href="/books" class="button") Cancel 

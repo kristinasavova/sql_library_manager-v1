@@ -5,13 +5,8 @@ body {
 
 h1 {
   text-align: center;
-  margin-top: 1em;
+  margin-top: 40px;
   text-transform: uppercase;
-}
-
-h2 {
-  border-top: 2px solid #e7e7e7;
-  padding-top: 20px;
 }
 
 p {
@@ -54,7 +49,7 @@ a.button, input[type=submit] {
 
 input[type=submit] {
   font-weight: bold;
-  margin-left: .5em;
+  margin-right: 20px; 
   border: 0;
 }
 
@@ -62,6 +57,17 @@ input[type=search] {
   padding: 10px 14px 12px; 
   font-size: 14px;
   border-radius: 5px;
+  margin-right: 5px;
+}
+
+input[type=text] {
+  width: 350px;
+  padding: 10px;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+  border-radius: 5px;
+  border-color: #E7E7E7;
+  transition: 0.4s;
 }
 
 .pagination {
@@ -80,19 +86,8 @@ input[type=search] {
   text-align: center;
 }
 
-ul {
-  padding: 0;
-  list-style-type: none;
-  margin: 1.2em auto;
-  line-height: 1.3em;
-}
-
-li {
-  padding: .5em;
-}
-
-.table {
-  margin-top: 1.2em; 
+.main-content {
+  margin-top: 20px; 
   padding-top: 1em;
 }
 
@@ -118,41 +113,28 @@ td {
 label {
   font-weight: bold;
   min-width: 130px;
-  font-size: 1.2em;
+  font-size: 1em;
   margin-right: none;
   text-transform: uppercase;
   display: inline-block;
   transition: 0.4s;
 }
 
-/* input {
-  padding: 10px;
-  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  border-radius: 5px;
-  border-color: #E7E7E7;
-  transition: 0.4s;
-} */
-
-input[type=text] {
-  width: 320px;
-}
-
-.buttons {
-  text-align: center;
-}
-
-  .buttons input {
-    display: inline;
-  } 
-
-  .buttons a {
-    display: inline; 
-  }
-
 .error {
-  color: rgb(236, 15, 15);
+  background-color: #ffe6e6;
+  color: firebrick;
+  box-shadow: -2px 2px 3px #ffe6e6;
+  max-width: 350px;
+  border-radius: 10px;
+  margin: auto;
+  padding: 5px 10px 5px 10px;
 }
+
+  .error p {
+    margin: auto;
+    text-align: center;
+    padding: 2px;
+  }
 
 .clearfix::after {
   content: "";
@@ -163,19 +145,31 @@ input[type=text] {
 @media (min-width: 769px) {
 
   h1 {
-    display: inline-block;
-  }
-
-  p {
-    margin: 1.5em auto;
-  }
-
-  ul {
-    margin: 1.5em auto;
+    float: left;
+    width: 60%;
+    text-align: left;
   }
 
   .search-form {
-    float: right;
+    width: 40%;
+    text-align: right;
+    position: fixed;
+    right: 25px;
+    top: 20px;
+  }
+
+  p {
+    margin: 25px auto;
+  }
+
+  .error {
+    display: inline-block;
+    max-width: none;
+    width: auto;
+    position: fixed;
+    top: 20%;
+    left: 55%;
+    z-index: 3;
   }
 
   .clearfix::after {
@@ -183,10 +177,5 @@ input[type=text] {
     display: table;
     clear: both;
   }
-
-  .buttons {
-    text-align: left;
-  }
-
 }
 

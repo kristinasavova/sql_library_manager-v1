@@ -87,7 +87,7 @@ router.get ('/:id', asyncHandler (async (req, res, next) => {
     // Req.params returns parameters in the matched route
     const book = await Book.findByPk (req.params.id);
     if (book) { // if the book exists 
-        res.render ('books/show', { book, title: book.title });
+        res.render ('books/update', { book, title: 'Edit Book' });
     } else { // if book doesn't exist, use error handler
         const err = new Error ();
         err.status = 400;
@@ -99,7 +99,7 @@ router.get ('/:id', asyncHandler (async (req, res, next) => {
 router.get ('/:id/edit', asyncHandler (async (req, res) => {
     const book = await Book.findByPk (req.params.id); 
     if (book) {
-        res.render ('books/edit', { book, title: 'Edit Book' }); 
+        res.render ('books/update', { book, title: 'Edit Book' }); 
     } else {
         const err = new Error ();
         err.status = 400;
@@ -125,7 +125,7 @@ router.post ('/:id/edit', asyncHandler (async (req, res) => {
             book = await Book.build (req.body);
             // Add book ID, since the ID is in the URL as a parameter (:id) and not in req.body!
             book.id === req.params.id; 
-            res.render ('books/edit', { book, errors: error.errors, title: 'Edit Book' }); 
+            res.render ('books/update', { book, errors: error.errors, title: 'Edit Book' }); 
         } else {
             throw error;
         }
