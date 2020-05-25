@@ -1,6 +1,6 @@
 # SQL Library Manager
 
-A web application that helps a library to manage their collection of books. JavaScript, Node.js, Express, Pug, and the SQL ORM Sequelize are used in the project.
+A web application that helps a library to manage their collection of books. JavaScript, Node.js, Express, Pug, and the SQL ORM Sequelize are used in this project.
 
 ## Getting Started
 
