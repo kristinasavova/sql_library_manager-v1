@@ -46,7 +46,7 @@ sequelize.sync ()
     })
     .then (() => {
         // Start a server 
-        const port = process.env.PORT;
+        let port = process.env.PORT;
         if (port == null || port == '') {
             port = 3000; 
         }
